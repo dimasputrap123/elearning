@@ -2,6 +2,7 @@
     background-color: white;
     min-width: 275px;
     width: 275px;
+    padding: 50px 20px 0;
     transition: all 0.3s;
     &.hide {
       // margin-left: -300px;
@@ -13,7 +14,7 @@
   }
   
   .participant-list-wrapper {
-    height: calc(100vh - 100px);
+    height: calc(100vh - 220px);
   }
   
   .title-icon {

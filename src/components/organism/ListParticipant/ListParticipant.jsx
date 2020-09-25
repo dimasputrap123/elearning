@@ -12,18 +12,27 @@ const ListParticipant = (props) => {
   const { showListSubs } = React.useContext(ContextType);
   return (
     <div className={classNames("participant-wrapper", !showListSubs && "hide")}>
-      <p className="mb-2 fs-18 fw-500 text-nowrap">{props.title}</p>
-      <p className="fs-14">6 Participant</p>
+      <p className="mb-1 fs-20 fw-500 text-nowrap">{props.title}</p>
+      <p className="fs-14 mb-4">6 Participant</p>
       <ParticipantItem name={props.name + " (Me)"} />
-      <Divider className="my-3 px-3" />
+      <Divider className="mb-3 px-3" />
       <SimpleBar className="participant-list-wrapper">
         {props.subs.length === 0 ? (
           <p className="text-center fs-16 text-nowrap">No one's here</p>
         ) : (
-          props.subs.map((el) => {
-            const data = JSON.parse(el.connection.data);
-            return <ParticipantItem name={data.name} key={el.id} />;
-          })
+          <>
+            {props.moderatorStream !== null &&
+              props.moderatorStream.map((el) => (
+                <ParticipantItem name={el.connection.data} key={el.id} />
+              ))}
+            {props.speakerStream !== null &&
+              props.speakerStream.map((el) => (
+                <ParticipantItem name={el.connection.data} key={el.id} />
+              ))}
+            {props.subs.map((el) => (
+              <ParticipantItem name={el.connection.data} key={el.id} />
+            ))}
+          </>
         )}
       </SimpleBar>
     </div>
@@ -35,6 +44,8 @@ const mapState = (state) => ({
   title: state.roomPersistReducer.title,
   role: state.roomPersistReducer.role,
   name: state.roomPersistReducer.name,
+  speakerStream: state.roomReducer.speakerStream,
+  moderatorStream: state.roomReducer.moderatorStream,
 });
 
 export default connect(mapState)(ListParticipant);
