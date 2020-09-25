@@ -2,40 +2,27 @@ import { ContextType } from "container/template/ControlContext/ControlContext";
 import React from "react";
 import "./ListParticipant.scss";
 import classNames from "classnames";
-import BeenhereIcon from "@material-ui/icons/Beenhere";
 import { Divider } from "@material-ui/core";
 import SimpleBar from "simplebar-react";
 import "simplebar/src/simplebar.css";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { connect } from "react-redux";
+import ParticipantItem from "components/molecules/ParticipantItem";
+
 const ListParticipant = (props) => {
   const { showListSubs } = React.useContext(ContextType);
   return (
     <div className={classNames("participant-wrapper", !showListSubs && "hide")}>
-      <div className="d-flex p-3 flex-nowrap">
-        <BeenhereIcon className="title-icon mr-2" />
-        <p className="mb-0 fs-16 fw-600 text-nowrap">{props.title}</p>
-      </div>
-      <Divider className="mb-3" />
+      <p className="mb-2 fs-18 fw-500 text-nowrap">{props.title}</p>
+      <p className="fs-14">6 Participant</p>
+      <ParticipantItem name={props.name + " (Me)"} />
+      <Divider className="my-3 px-3" />
       <SimpleBar className="participant-list-wrapper">
         {props.subs.length === 0 ? (
-          props.role !== "participant" ? (
-            <p className="text-center fs-14 text-nowrap">No one's here</p>
-          ) : (
-            <div className="d-flex align-items-center mb-2 px-3">
-              <AccountCircleIcon className="mr-2" />
-              <p className="mb-0 fs-16">{props.name}</p>
-            </div>
-          )
+          <p className="text-center fs-16 text-nowrap">No one's here</p>
         ) : (
           props.subs.map((el) => {
             const data = JSON.parse(el.connection.data);
-            return (
-              <div className="d-flex align-items-center mb-2 px-3" key={el.id}>
-                <AccountCircleIcon className="mr-2" />
-                <p className="mb-0 fs-16">{data.name}</p>
-              </div>
-            );
+            return <ParticipantItem name={data.name} key={el.id} />;
           })
         )}
       </SimpleBar>
