@@ -1,0 +1,26 @@
+.subs-wrapper {
+  background-color: white;
+  min-width: 275px;
+  width: 275px;
+  transition: all 0.3s;
+  &.hide {
+    // margin-left: -300px;
+    min-width: 0;
+    width: 0;
+    overflow-x: hidden;
+    white-space: nowrap;
+  }
+}
+
+.subs-list-wrapper {
+  height: calc(100vh - 100px);
+}
+
+.title-icon {
+  color: #7e62f6;
+}
+
+.subs {
+  width: 100%;
+  height: 100%;
+}

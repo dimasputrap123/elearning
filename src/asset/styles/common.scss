@@ -1,0 +1,40 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+button {
+  outline: unset !important;
+}
+
+.color-red {
+  color: #ff3346;
+}
+
+.color-blue {
+  color: #27a4fd;
+}
+
+.w-fit {
+  width: fit-content;
+}
+
+/*classname untuk font-size fs-{8-200}*/
+@for $i from 8 through 200 {
+  $fontsize: $i;
+  .fs-#{$i} {
+    font-size: $fontsize + 0px !important;
+  }
+}
+
+/*classname font-weight fw-{400-900}*/
+@for $i from 4 through 9 {
+  $base: $i * 100;
+  .fw-#{$base} {
+    font-weight: $base !important;
+  }
+}
