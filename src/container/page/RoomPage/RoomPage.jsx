@@ -4,6 +4,7 @@ import DialogSendMessage from "components/organism/dialog/DialogSendMessage";
 import ListParticipant from "components/organism/ListParticipant";
 import ListQuestion from "components/organism/ListQuestion";
 import ListSpeaker from "components/organism/ListSpeaker";
+import Participant from "components/organism/Participant";
 // import ListSubs from "components/organism/ListSubs";
 // import Publisher from "components/organism/Publisher";
 import ExtraControl from "components/organism/roomControl/ExtraControl";
@@ -98,6 +99,7 @@ class RoomPage extends Component {
               {/* <NoVideo iconClassName="fs-200" /> */}
               {/* {this.props.role !== "participant" ? <Publisher /> : <Speaker />} */}
               <Speaker />
+              {this.props.role === "participant" && <Participant />}
             </div>
             <MainControl />
           </div>

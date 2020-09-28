@@ -1,16 +1,16 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import once from 'lodash/once';
-import { omitBy, isNil } from 'lodash/fp';
-import {v4} from 'uuid';
-const OT = require('@opentok/client');
+import React, { Component } from "react";
+import PropTypes from "prop-types";
+import once from "lodash/once";
+import { omitBy, isNil } from "lodash/fp";
+import { v4 } from "uuid";
+const OT = require("@opentok/client");
 export default class OTPublisher extends Component {
   constructor(props, context) {
     super(props);
 
     this.state = {
       publisher: null,
-      lastStreamId: '',
+      lastStreamId: "",
       session: props.session || context.session || null,
     };
   }
@@ -20,7 +20,8 @@ export default class OTPublisher extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const cast = (value, defaultValue) => (value === undefined ? defaultValue : value);
+    const cast = (value, defaultValue) =>
+      value === undefined ? defaultValue : value;
 
     const shouldUpdate = (key, defaultValue) => {
       const previous = cast(prevProps.properties[key], defaultValue);
@@ -35,14 +36,14 @@ export default class OTPublisher extends Component {
       }
     };
 
-    if (shouldUpdate('videoSource', undefined)) {
+    if (shouldUpdate("videoSource", undefined)) {
       this.destroyPublisher();
       this.createPublisher();
       return;
     }
 
-    updatePublisherProperty('publishAudio', true);
-    updatePublisherProperty('publishVideo', true);
+    updatePublisherProperty("publishAudio", true);
+    updatePublisherProperty("publishVideo", true);
 
     if (this.state.session !== prevState.session) {
       this.destroyPublisher(prevState.session);
@@ -52,7 +53,7 @@ export default class OTPublisher extends Component {
 
   componentWillUnmount() {
     if (this.state.session) {
-      this.state.session.off('sessionConnected', this.sessionConnectedHandler);
+      this.state.session.off("sessionConnected", this.sessionConnectedHandler);
     }
 
     this.destroyPublisher();
@@ -66,13 +67,13 @@ export default class OTPublisher extends Component {
     delete this.publisherId;
 
     if (this.state.publisher) {
-      this.state.publisher.off('streamCreated', this.streamCreatedHandler);
+      this.state.publisher.off("streamCreated", this.streamCreatedHandler);
 
       if (
         this.props.eventHandlers &&
-        typeof this.props.eventHandlers === 'object'
+        typeof this.props.eventHandlers === "object"
       ) {
-        this.state.publisher.once('destroyed', () => {
+        this.state.publisher.once("destroyed", () => {
           this.state.publisher.off(this.props.eventHandlers);
         });
       }
@@ -95,7 +96,7 @@ export default class OTPublisher extends Component {
       }
       if (err) {
         this.errorHandler(err);
-      } else if (typeof this.props.onPublish === 'function') {
+      } else if (typeof this.props.onPublish === "function") {
         this.props.onPublish();
       }
     });
@@ -103,16 +104,16 @@ export default class OTPublisher extends Component {
 
   createPublisher() {
     if (!this.state.session) {
-      this.setState({ publisher: null, lastStreamId: '' });
+      this.setState({ publisher: null, lastStreamId: "" });
       return;
     }
-
+    
     const properties = this.props.properties || {};
     let container;
 
     if (properties.insertDefaultUI !== false) {
-      container = document.createElement('div');
-      container.setAttribute('class', 'OTPublisherContainer');
+      container = document.createElement("div");
+      container.setAttribute("class", "OTPublisherContainer");
       this.node.appendChild(container);
     }
 
@@ -125,7 +126,7 @@ export default class OTPublisher extends Component {
         // component unmounted so don't invoke any callbacks
         return;
       }
-      if (typeof this.props.onError === 'function') {
+      if (typeof this.props.onError === "function") {
         this.props.onError(err);
       }
     });
@@ -138,15 +139,15 @@ export default class OTPublisher extends Component {
       }
       if (err) {
         this.errorHandler(err);
-      } else if (typeof this.props.onInit === 'function') {
+      } else if (typeof this.props.onInit === "function") {
         this.props.onInit();
       }
     });
-    publisher.on('streamCreated', this.streamCreatedHandler);
+    publisher.on("streamCreated", this.streamCreatedHandler);
 
     if (
       this.props.eventHandlers &&
-      typeof this.props.eventHandlers === 'object'
+      typeof this.props.eventHandlers === "object"
     ) {
       const handles = omitBy(isNil)(this.props.eventHandlers);
       publisher.on(handles);
@@ -155,23 +156,31 @@ export default class OTPublisher extends Component {
     if (this.state.session.connection) {
       this.publishToSession(publisher);
     } else {
-      this.state.session.once('sessionConnected', this.sessionConnectedHandler);
+      this.state.session.once("sessionConnected", this.sessionConnectedHandler);
     }
 
-    this.setState({ publisher, lastStreamId: '' });
+    this.setState({ publisher, lastStreamId: "" });
   }
 
   sessionConnectedHandler = () => {
     this.publishToSession(this.state.publisher);
-  }
+  };
 
   streamCreatedHandler = (event) => {
     this.setState({ lastStreamId: event.stream.id });
-  }
+  };
 
   render() {
     const { className, style } = this.props;
-    return <div className={className} style={style} ref={(node) => { this.node = node; }} />;
+    return (
+      <div
+        className={className}
+        style={style}
+        ref={(node) => {
+          this.node = node;
+        }}
+      />
+    );
   }
 }
 
@@ -196,7 +205,7 @@ OTPublisher.propTypes = {
 
 OTPublisher.defaultProps = {
   session: null,
-  className: '',
+  className: "",
   style: {},
   properties: {},
   eventHandlers: null,

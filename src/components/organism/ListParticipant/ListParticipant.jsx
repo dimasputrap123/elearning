@@ -13,7 +13,12 @@ const ListParticipant = (props) => {
   return (
     <div className={classNames("participant-wrapper", !showListSubs && "hide")}>
       <p className="mb-1 fs-20 fw-500 text-nowrap">{props.title}</p>
-      <p className="fs-14 mb-4 text-nowrap">6 Participant</p>
+      <p className="fs-14 mb-4 text-nowrap">
+        {props.speakerStream.length +
+          props.moderatorStream.length +
+          props.subs.length}{" "}
+        Participant
+      </p>
       <ParticipantItem
         connectionData={{ name: props.name, role: props.role }}
       />
