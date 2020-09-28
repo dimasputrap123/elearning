@@ -30,7 +30,7 @@ class RoomPage extends Component {
       sessionId,
       token,
       onStreamsUpdated: (streams) => {
-        console.log(streams);
+        // console.log(streams);
         // if (role !== "participant") {
         //   this.props.room_rd({ subs: [...streams] });
         // } else {

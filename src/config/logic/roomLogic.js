@@ -31,10 +31,11 @@ export const joinRoom = createLogic({
           batchActions([
             ...actions,
             room_p_rd({
-              sessionId: response.data.session_id,
-              token: response.data.participant.token,
+              sessionId: response.data.webinar.opentok_session_id,
+              token: response.data.token,
               name: action.payload.name,
               role: action.payload.role,
+              title: response.data.webinar.title,
             }),
           ])
         );

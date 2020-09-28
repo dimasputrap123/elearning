@@ -1,8 +1,8 @@
 import * as types from "../types";
 
 const initiate = {
-  speakerStream: null,
-  moderatorStream: null,
+  speakerStream: [],
+  moderatorStream: [],
   session: null,
   subs: [],
   connectionStatus: false,

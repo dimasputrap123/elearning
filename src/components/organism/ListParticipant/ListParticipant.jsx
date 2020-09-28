@@ -13,24 +13,37 @@ const ListParticipant = (props) => {
   return (
     <div className={classNames("participant-wrapper", !showListSubs && "hide")}>
       <p className="mb-1 fs-20 fw-500 text-nowrap">{props.title}</p>
-      <p className="fs-14 mb-4">6 Participant</p>
-      <ParticipantItem name={props.name + " (Me)"} />
+      <p className="fs-14 mb-4 text-nowrap">6 Participant</p>
+      <ParticipantItem
+        connectionData={{ name: props.name, role: props.role }}
+      />
       <Divider className="mb-3 px-3" />
       <SimpleBar className="participant-list-wrapper">
-        {props.subs.length === 0 ? (
+        {props.subs.length === 0 &&
+        props.moderatorStream.length === 0 &&
+        props.speakerStream.length === 0 ? (
           <p className="text-center fs-16 text-nowrap">No one's here</p>
         ) : (
           <>
-            {props.moderatorStream !== null &&
+            {props.moderatorStream.length > 0 &&
               props.moderatorStream.map((el) => (
-                <ParticipantItem name={el.connection.data} key={el.id} />
+                <ParticipantItem
+                  connectionData={el.connection.data}
+                  key={el.id}
+                />
               ))}
-            {props.speakerStream !== null &&
+            {props.speakerStream.length > 0 &&
               props.speakerStream.map((el) => (
-                <ParticipantItem name={el.connection.data} key={el.id} />
+                <ParticipantItem
+                  connectionData={el.connection.data}
+                  key={el.id}
+                />
               ))}
             {props.subs.map((el) => (
-              <ParticipantItem name={el.connection.data} key={el.id} />
+              <ParticipantItem
+                connectionData={el.connection.data}
+                key={el.id}
+              />
             ))}
           </>
         )}

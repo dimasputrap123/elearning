@@ -13,7 +13,7 @@ const ListSpeaker = ({ speakerStream, session, role }) => {
         </SubsFrame>
       )}
       {session !== null &&
-        speakerStream !== null &&
+        speakerStream.length > 0 &&
         speakerStream.map((el) => (
           <SubsFrame key={el.id}>
             <OTSubscriber
