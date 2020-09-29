@@ -16,7 +16,8 @@ const ListParticipant = (props) => {
       <p className="fs-14 mb-4 text-nowrap">
         {props.speakerStream.length +
           props.moderatorStream.length +
-          props.subs.length}{" "}
+          props.subs.length +
+          1}{" "}
         Participant
       </p>
       <ParticipantItem

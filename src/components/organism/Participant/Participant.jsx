@@ -8,18 +8,20 @@ const Participant = (props) => {
   };
   return (
     props.session !== null && (
-      <OTPublisher
-        properties={{
-          width: "0",
-          height: "0",
-          style: { buttonDisplayMode: "off" },
-          publishVideo: false,
-          publishAudio: false,
-        }}
-        session={props.session}
-        style={{ width: 0, height: 0 }}
-        onError={onError}
-      />
+      <div className="d-none">
+        <OTPublisher
+          properties={{
+            width: "0",
+            height: "0",
+            style: { buttonDisplayMode: "off" },
+            publishVideo: false,
+            publishAudio: false,
+          }}
+          session={props.session}
+          style={{ width: 0, height: 0 }}
+          onError={onError}
+        />
+      </div>
     )
   );
 };

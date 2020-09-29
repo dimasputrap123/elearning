@@ -93,7 +93,7 @@ const JoinPage = (props) => {
           {props.loading && (
             <CircularProgress size={20} className={classes.circular} />
           )}
-          Login
+          Join
         </Button>
       </div>
     </form>
