@@ -13,12 +13,22 @@ class Context extends React.Component {
       showListQuestion: false,
       showListSubs: true,
       showSendMessage: false,
+      showMessage: false,
       publishAudio: true,
       publishVideo: true,
       screenShare: false,
       showDevices: false,
     };
   }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { showMessage } = this.state;
+    const { messageData } = this.props;
+    if (prevProps.messageData !== messageData && !showMessage) {
+      this.setState({ showMessage: true });
+    }
+  }
+
   handleClick = (name) => {
     switch (name) {
       case "listQuestion":
@@ -42,6 +52,25 @@ class Context extends React.Component {
       case "showSendMessage":
         this.setState({ showSendMessage: !this.state.showSendMessage });
         break;
+      case "showMessage":
+        this.setState({ showMessage: !this.state.showMessage }, () => {
+          if (this.state.showMessage) {
+            this.props.session.signal(
+              {
+                data: JSON.stringify({ ...this.props.messageData }),
+                type: "showMessage",
+              },
+              (error) => {
+                if (error) {
+                  console.log("signal error :", error);
+                } else {
+                  console.log("signal send");
+                }
+              }
+            );
+          }
+        });
+        break;
       case "end":
         this.props.end_call_lc({
           session: this.props.session,
@@ -63,7 +92,10 @@ class Context extends React.Component {
   }
 }
 
-const mapState = (state) => ({ session: state.roomReducer.session });
+const mapState = (state) => ({
+  session: state.roomReducer.session,
+  messageData: state.roomReducer.messageData,
+});
 const ControlContext = compose(
   connect(mapState, { end_call_lc }),
   withRouter

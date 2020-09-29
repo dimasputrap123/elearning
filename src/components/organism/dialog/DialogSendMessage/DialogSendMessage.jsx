@@ -19,7 +19,7 @@ const DialogSendMessage = ({ session, name }) => {
       {
         data: JSON.stringify({
           name,
-          message: "tes123",
+          message: e.message,
         }),
         type: "message",
       },

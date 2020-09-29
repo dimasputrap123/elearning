@@ -6,6 +6,10 @@ const initiate = {
   session: null,
   subs: [],
   connectionStatus: false,
+  messageData: {
+    name: "",
+    message: "",
+  },
 };
 
 const roomReducer = (state = initiate, action) => {

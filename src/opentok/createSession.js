@@ -22,6 +22,7 @@ export default function createSession({
   }
 
   let streams = [];
+  let session = OT.initSession(apiKey, sessionId, options);
 
   let onStreamCreated = (event) => {
     const index = streams.findIndex((stream) => stream.id === event.stream.id);
@@ -40,7 +41,9 @@ export default function createSession({
   };
 
   let onSignal = (event) => {
-    onSignalUpdated(event);
+    console.log("on signal trigger");
+    if (event.from.connectionId !== session.connection.id)
+      onSignalUpdated(event);
   };
 
   let eventHandlers = {
@@ -49,7 +52,6 @@ export default function createSession({
     signal: onSignal,
   };
 
-  let session = OT.initSession(apiKey, sessionId, options);
   session.on(eventHandlers);
   session.connect(token, (err) => {
     if (!session) {

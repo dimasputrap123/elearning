@@ -1,0 +1,9 @@
+.show-question-wrapper {
+  width: 350px;
+  height: 180px;
+  position: absolute;
+  left: 50%;
+  bottom: 150px;
+  transform: translateX(-50%) !important;
+  z-index: 3;
+}
