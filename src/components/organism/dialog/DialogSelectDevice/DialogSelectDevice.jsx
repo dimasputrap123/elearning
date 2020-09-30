@@ -33,39 +33,17 @@ const DialogSelectDevice = (props) => {
   React.useEffect(() => {
     if (showDevices) {
       console.log("tes");
-    //   navigator.mediaDevices
-    //     .enumerateDevices()
-    //     .then((devices) => {
-    //       const video = devices.filter((elm) => elm.kind === "videoInput");
-    //       const audio = devices.filter((elm) => elm.kind === "audioInput");
-    //       setState((state) => ({ ...state, video, audio, once: false }));
-    //       if (videoSelected === "") {
-    //         setState((state) => ({
-    //           ...state,
-    //           videoSelected: video[0].deviceId,
-    //         }));
-    //       }
-    //       if (audioSelected === "") {
-    //         setState((state) => ({
-    //           ...state,
-    //           audioSelected: audio[0].deviceId,
-    //         }));
-    //       }
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //     });
-        OT.getDevices((error, devices) => {
-          const video = devices.filter((elm) => elm.kind === "videoInput");
-          const audio = devices.filter((elm) => elm.kind === "audioInput");
-          setState((state) => ({ ...state, video, audio, once: false }));
-          if (videoSelected === "") {
-            setState((state) => ({ ...state, videoSelected: video[0].deviceId }));
-          }
-          if (audioSelected === "") {
-            setState((state) => ({ ...state, audioSelected: audio[0].deviceId }));
-          }
-        });
+      OT.getDevices((error, devices) => {
+        const video = devices.filter((elm) => elm.kind === "videoInput");
+        const audio = devices.filter((elm) => elm.kind === "audioInput");
+        setState((state) => ({ ...state, video, audio, once: false }));
+        if (videoSelected === "") {
+          setState((state) => ({ ...state, videoSelected: video[0].deviceId }));
+        }
+        if (audioSelected === "") {
+          setState((state) => ({ ...state, audioSelected: audio[0].deviceId }));
+        }
+      });
     }
   }, [showDevices, videoSelected, audioSelected]);
   return (

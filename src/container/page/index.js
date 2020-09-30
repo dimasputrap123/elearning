@@ -1,15 +1,15 @@
 import JoinPage from "./JoinPage";
 import Loginpage from "./Loginpage";
-// import OtherPage from "./OtherPage";
-import Other2Page from "./Other2Page";
+import OtherPage from "./OtherPage";
+// import Other2Page from "./Other2Page";
 import RoomPage from "./RoomPage";
 const pages = [
   {
-    component: Other2Page,
+    component: OtherPage,
     path: "/other",
     type: "public",
-    showLeaveConfirm: true,
-    manualLeave: true,
+    // showLeaveConfirm: true,
+    // manualLeave: true,
   },
   {
     component: RoomPage,

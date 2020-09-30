@@ -27,6 +27,13 @@ class Context extends React.Component {
     if (prevProps.messageData !== messageData && !showMessage) {
       this.setState({ showMessage: true });
     }
+    // if (focusStream !== prevProps.focusStream) {
+    //   if (focusStream === "self" && !publishVideo) {
+    //     this.setState({ publishVideo: true });
+    //   } else if (publishVideo) {
+    //     this.setState({ publishVideo: false });
+    //   }
+    // }
   }
 
   handleClick = (name) => {
@@ -95,6 +102,7 @@ class Context extends React.Component {
 const mapState = (state) => ({
   session: state.roomReducer.session,
   messageData: state.roomReducer.messageData,
+  // focusStream: state.roomReducer.focusStream,
 });
 const ControlContext = compose(
   connect(mapState, { end_call_lc }),

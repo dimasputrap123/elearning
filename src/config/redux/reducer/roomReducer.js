@@ -6,6 +6,7 @@ const initiate = {
   session: null,
   subs: [],
   connectionStatus: false,
+  focusStream: "self",
   messageData: {
     name: "",
     message: "",
