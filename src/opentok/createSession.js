@@ -5,6 +5,7 @@ export default function createSession({
   token,
   onStreamsUpdated,
   onSignalUpdated,
+  onConnectionUpdated,
   onConnect,
   onError,
   options,
@@ -22,6 +23,7 @@ export default function createSession({
   }
 
   let streams = [];
+  let connections = [];
   let session = OT.initSession(apiKey, sessionId, options);
 
   let onStreamCreated = (event) => {
@@ -46,10 +48,36 @@ export default function createSession({
       onSignalUpdated(event);
   };
 
+  let onConnectionCreated = (event) => {
+    const index = connections.findIndex(
+      (e) => e.connection.id === event.connection.id
+    );
+    if (index < 0 && event.connection.id !== session.connection.id) {
+      connections = [...connections, event];
+      onConnectionUpdated(connections);
+    }
+    // console.log("con created", event.connection);
+  };
+
+  let onConnectionDestroyed = (event) => {
+    const index = connections.findIndex(
+      (e) => e.connection.id === event.connection.id
+    );
+    if (index >= 0) {
+      connections = connections.filter(
+        (e) => e.connection.id !== event.connection.id
+      );
+      onConnectionUpdated(connections);
+    }
+    // console.log("con destroyed", event.connection);
+  };
+
   let eventHandlers = {
     streamCreated: onStreamCreated,
     streamDestroyed: onStreamDestroyed,
     signal: onSignal,
+    connectionCreated: onConnectionCreated,
+    connectionDestroyed: onConnectionDestroyed,
   };
 
   session.on(eventHandlers);
@@ -79,6 +107,8 @@ export default function createSession({
       onStreamCreated = null;
       onStreamDestroyed = null;
       onSignal = null;
+      onConnectionCreated = null;
+      onConnectionDestroyed = null;
       eventHandlers = null;
       session = null;
 

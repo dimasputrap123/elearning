@@ -48,7 +48,7 @@ const ListParticipant = (props) => {
             {props.subs.map((el) => (
               <ParticipantItem
                 connectionData={el.connection.data}
-                key={el.id}
+                key={el.connection.id}
               />
             ))}
           </>

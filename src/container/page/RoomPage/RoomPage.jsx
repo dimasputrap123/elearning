@@ -3,7 +3,7 @@ import DialogSendMessage from "components/organism/dialog/DialogSendMessage";
 import ListParticipant from "components/organism/ListParticipant";
 import ListQuestion from "components/organism/ListQuestion";
 import ListSpeaker from "components/organism/ListSpeaker";
-import Participant from "components/organism/Participant";
+// import Participant from "components/organism/Participant";
 import ExtraControl from "components/organism/roomControl/ExtraControl";
 import MainControl from "components/organism/roomControl/MainControl";
 import ShowQuestion from "components/organism/ShowQuestion";
@@ -49,7 +49,23 @@ class RoomPage extends Component {
         return false;
       }
     });
-    const subs = streams.filter((e) => {
+    // const subs = streams.filter((e) => {
+    //   const data = JSON.parse(e.connection.data);
+    //   if (data.role === "participant") {
+    //     return true;
+    //   } else {
+    //     return false;
+    //   }
+    // });
+    this.props.room_rd({
+      // subs: [...subs],
+      speakerStream: [...speakerStream],
+      moderatorStream: [...moderatorStream],
+    });
+  };
+
+  connectionHandler = (connections) => {
+    const subs = connections.filter((e) => {
       const data = JSON.parse(e.connection.data);
       if (data.role === "participant") {
         return true;
@@ -59,13 +75,11 @@ class RoomPage extends Component {
     });
     this.props.room_rd({
       subs: [...subs],
-      speakerStream: [...speakerStream],
-      moderatorStream: [...moderatorStream],
     });
+    console.log(connections);
   };
 
   componentDidMount() {
-    // window.addEventListener("beforeunload", this.handleUnload);
     const { sessionId, token, apiKey, room_rd } = this.props;
     this.session = createSession({
       apiKey,
@@ -76,26 +90,13 @@ class RoomPage extends Component {
         room_rd({ connectionStatus: true });
       },
       onSignalUpdated: this.signalHandler,
+      onConnectionUpdated: this.connectionHandler,
       onError: (err) => {
         console.log(err);
       },
     });
     room_rd({ session: this.session.session });
   }
-
-  // componentWillUnmount() {
-  //   window.removeEventListener("beforeunload", this.handleUnload);
-  // }
-
-  // handleUnload = () => {
-  //   this.session.session.signal({
-  //     data: JSON.stringify({
-  //       name: "tes",
-  //       message: "leave",
-  //     }),
-  //     type: "leave",
-  //   });
-  // };
 
   render() {
     return (
@@ -107,7 +108,7 @@ class RoomPage extends Component {
             {this.props.role !== "participant" && <ExtraControl />}
             <div style={{ height: "100vh" }}>
               <Speaker />
-              {this.props.role === "participant" && <Participant />}
+              {/* {this.props.role === "participant" && <Participant />} */}
             </div>
             <ShowQuestion />
             <MainControl />

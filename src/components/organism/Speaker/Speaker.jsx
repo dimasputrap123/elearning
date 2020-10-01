@@ -11,6 +11,10 @@ const Speaker = ({
   focusStream,
   speakerStream,
 }) => {
+  const [once, setOnce] = React.useState(true);
+  React.useEffect(() => {
+    setOnce(false);
+  }, []);
   return (
     <>
       {role !== "participant" && (
@@ -23,7 +27,16 @@ const Speaker = ({
         speakerStream.length === 0 && <NoVideo iconClassName="fs-200" />}
       {session !== null &&
         moderatorStream.map((el) => (
-          <div className={el.id !== focusStream ? "d-none" : "h-100"} key={el.id}>
+          <div
+            className={
+              el.id !== focusStream
+                ? role === "participant" && once
+                  ? "h-100"
+                  : "d-none"
+                : "h-100"
+            }
+            key={el.id}
+          >
             <OTSubscriber
               properties={{
                 subscribeToAudio: false,
@@ -43,7 +56,10 @@ const Speaker = ({
         ))}
       {session !== null &&
         speakerStream.map((el) => (
-          <div className={el.id !== focusStream ? "d-none" : "h-100"} key={el.id}>
+          <div
+            className={el.id !== focusStream ? "d-none" : "h-100"}
+            key={el.id}
+          >
             <OTSubscriber
               properties={{
                 subscribeToAudio: false,

@@ -20,20 +20,14 @@ const ListSpeaker = ({
   };
   return (
     <div className="list-speaker-wrapper">
-      {/* {role === "speaker" && (
+      {role !== "participant" && (
         <SubsFrame
           active={active === "self"}
           onClick={() => handleActive("self")}
         >
-          <Publisher />
+          <SelfVideo fitMode="cover" className="w-100 h-100" />
         </SubsFrame>
-      )} */}
-      <SubsFrame
-        active={active === "self"}
-        onClick={() => handleActive("self")}
-      >
-        <SelfVideo fitMode="cover" className="w-100 h-100" />
-      </SubsFrame>
+      )}
       {session !== null &&
         moderatorStream.map((el) => (
           <SubsFrame
