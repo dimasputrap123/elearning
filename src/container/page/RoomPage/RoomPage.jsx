@@ -12,7 +12,11 @@ import { ControlContext } from "container/template/ControlContext/ControlContext
 import { createSession } from "opentok";
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { room_rd, add_message_rd } from "../../../config/redux/action/room";
+import {
+  room_rd,
+  add_message_rd,
+  pub_connection_lc,
+} from "../../../config/redux/action/room";
 
 class RoomPage extends Component {
   signalHandler = (event) => {
@@ -73,9 +77,18 @@ class RoomPage extends Component {
         return false;
       }
     });
+    const pubs = connections.filter((e) => {
+      const data = JSON.parse(e.connection.data);
+      if (data.role === "moderator" || data.role === "speaker") {
+        return true;
+      } else {
+        return false;
+      }
+    });
     this.props.room_rd({
       subs: [...subs],
     });
+    this.props.pub_connection_lc(pubs);
     console.log(connections);
   };
 
@@ -132,4 +145,8 @@ const mapState = (state) => ({
   apiKey: state.roomPersistReducer.apiKey,
 });
 
-export default connect(mapState, { room_rd, add_message_rd })(RoomPage);
+export default connect(mapState, {
+  room_rd,
+  add_message_rd,
+  pub_connection_lc,
+})(RoomPage);

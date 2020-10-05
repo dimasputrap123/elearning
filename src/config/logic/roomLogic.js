@@ -4,7 +4,7 @@ import { batchActions } from "redux-batched-actions";
 import { end_call_rd } from "config/redux/action/room";
 import url from "../api/url";
 import { requestPost } from "config/api/request";
-import { room_p_rd } from "../redux/action/room";
+import { room_p_rd, room_rd } from "../redux/action/room";
 
 export const joinRoom = createLogic({
   type: types.JOIN_LC,
@@ -45,6 +45,27 @@ export const joinRoom = createLogic({
         console.log(response);
       })
       .then(done);
+  },
+});
+
+export const pubConnection = createLogic({
+  type: types.PUB_CONNECTIONS_LC,
+  latest: true,
+  process({ action }, dispatch, done) {
+    const { payload } = action;
+    const data = payload.sort((x, y) => {
+      const dataX = JSON.parse(x.connection.data);
+      const dataY = JSON.parse(y.connection.data);
+      if (dataX.role === "moderator") return -1;
+      else if (dataY.role === "moderator") return 1;
+      else return 0;
+    });
+    dispatch(
+      room_rd({
+        publisherConnections: data,
+      })
+    );
+    done();
   },
 });
 

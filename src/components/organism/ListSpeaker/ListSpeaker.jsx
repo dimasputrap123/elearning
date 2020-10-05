@@ -32,8 +32,8 @@ const ListSpeaker = ({
         moderatorStream.map((el) => (
           <SubsFrame
             key={el.id}
-            active={active === el.id}
-            onClick={() => handleActive(el.id)}
+            active={active === el.connection.id}
+            onClick={() => handleActive(el.connection.id)}
           >
             <OTSubscriber
               properties={{
@@ -57,8 +57,8 @@ const ListSpeaker = ({
         speakerStream.map((el) => (
           <SubsFrame
             key={el.id}
-            active={active === el.id}
-            onClick={() => handleActive(el.id)}
+            active={active === el.connection.id}
+            onClick={() => handleActive(el.connection.id)}
           >
             <OTSubscriber
               properties={{

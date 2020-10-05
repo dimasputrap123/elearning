@@ -7,7 +7,7 @@ import {
   set_loading_rd,
   loading_done_rd,
 } from "../redux/action/state";
-import { batchActions } from "redux-batched-actions";
+// import { batchActions } from "redux-batched-actions";
 function status(status) {
   return true;
 }
@@ -136,14 +136,16 @@ const checkServerStatus = (response, key, actions, set_tmp) => {
         data: null,
       })
     );
-    store.dispatch(batchActions(actions));
+    // store.dispatch(batchActions(actions));
+    const rst = { response, actions };
+    throw rst;
   } else {
     return checkAuthStatus(response.data, key, actions, set_tmp);
   }
 };
 
 const checkAuthStatus = (data, key, actions, set_tmp) => {
-  if (data.status === 401) {
+  if (data.code === 401) {
     actions.push(
       set_tmp_rd({
         status: false,
@@ -152,7 +154,9 @@ const checkAuthStatus = (data, key, actions, set_tmp) => {
         data: null,
       })
     );
-    store.dispatch(batchActions(actions));
+    // store.dispatch(batchActions(actions));
+    const rst = { response: data, actions };
+    throw rst;
   } else if (data.status) {
     if (set_tmp) {
       actions.push(set_tmp_rd({ status: true, key, msg: data.messages, data }));

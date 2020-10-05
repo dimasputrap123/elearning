@@ -17,6 +17,7 @@ export const SEND_MESSAGE_LC = "SEND_MESSAGE_LC";
 export const END_CALL_LC = "END_CALL_LC";
 export const END_CALL_RD = "END_CALL_RD";
 export const JOIN_LC = "JOIN_LC";
+export const PUB_CONNECTIONS_LC = "PUB_CONNECTIONS_LC";
 
 //state
 export const STATE_RD = "STATE_RD";

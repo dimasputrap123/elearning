@@ -1,8 +1,12 @@
 import * as types from "../types";
-
+/**
+ * publisher connection= (speaker+moderator) connection
+ * subs=participant connection / stream (kalo participant bisa publish video)
+ */
 const initiate = {
   speakerStream: [],
   moderatorStream: [],
+  publisherConnections:[],
   session: null,
   subs: [],
   connectionStatus: false,

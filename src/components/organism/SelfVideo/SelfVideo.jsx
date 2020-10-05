@@ -2,8 +2,9 @@ import React from "react";
 import "./SelfVideo.scss";
 import classNames from "classnames";
 import { ContextType } from "container/template/ControlContext/ControlContext";
+import { connect } from "react-redux";
 
-const SelfVideo = ({ className, fitMode }) => {
+const SelfVideo = ({ className, fitMode, videoSelected }) => {
   let video = React.useRef(null);
   const [state, setState] = React.useState({
     videoDevices: null,
@@ -21,8 +22,10 @@ const SelfVideo = ({ className, fitMode }) => {
     }
     return () => {
       videoRef.pause();
-      videoRef.srcObject.getTracks().forEach((track) => track.stop());
-      videoRef.srcObject = null;
+      if (videoRef.srcObject !== null) {
+        videoRef.srcObject.getTracks().forEach((track) => track.stop());
+        videoRef.srcObject = null;
+      }
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -31,6 +34,15 @@ const SelfVideo = ({ className, fitMode }) => {
     getVideoDevice();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  React.useEffect(() => {
+    if (videoSelected !== null) {
+      setState((state) => ({
+        ...state,
+        videoDevices: { deviceId: videoSelected },
+      }));
+    }
+  }, [videoSelected]);
 
   React.useEffect(() => {
     if (videoDevices !== null) {
@@ -64,6 +76,11 @@ const SelfVideo = ({ className, fitMode }) => {
           },
         },
       });
+      if (localStream !== null) {
+        video.current.pause();
+        video.current.srcObject = null;
+        localStream.getTracks().forEach((track) => track.stop());
+      }
       video.current.srcObject = stream;
       setState((state) => ({ ...state, localStream: stream }));
       console.log(stream);
@@ -111,4 +128,8 @@ SelfVideo.defaultProps = {
   fitMode: "contain",
 };
 
-export default SelfVideo;
+const mapState = (state) => ({
+  videoSelected: state.roomPersistReducer.videoSelected,
+});
+
+export default connect(mapState)(SelfVideo);
