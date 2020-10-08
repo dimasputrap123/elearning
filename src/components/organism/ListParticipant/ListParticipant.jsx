@@ -14,8 +14,7 @@ const ListParticipant = (props) => {
     <div className={classNames("participant-wrapper", !showListSubs && "hide")}>
       <p className="mb-1 fs-20 fw-500 text-nowrap">{props.title}</p>
       <p className="fs-14 mb-4 text-nowrap">
-        {props.speakerStream.length +
-          props.moderatorStream.length +
+        {props.publisherConnections.length +
           props.subs.length +
           1}{" "}
         Participant
@@ -25,13 +24,11 @@ const ListParticipant = (props) => {
       />
       <Divider className="mb-3 px-3" />
       <SimpleBar className="participant-list-wrapper">
-        {props.subs.length === 0 &&
-        props.moderatorStream.length === 0 &&
-        props.speakerStream.length === 0 ? (
+        {props.subs.length === 0 && props.publisherConnections.length === 0 ? (
           <p className="text-center fs-16 text-nowrap">No one's here</p>
         ) : (
           <>
-            {props.moderatorStream.length > 0 &&
+            {/* {props.moderatorStream.length > 0 &&
               props.moderatorStream.map((el) => (
                 <ParticipantItem
                   connectionData={el.connection.data}
@@ -44,7 +41,13 @@ const ListParticipant = (props) => {
                   connectionData={el.connection.data}
                   key={el.id}
                 />
-              ))}
+              ))} */}
+            {props.publisherConnections.map((el) => (
+              <ParticipantItem
+                connectionData={el.connection.data}
+                key={el.connection.id}
+              />
+            ))}
             {props.subs.map((el) => (
               <ParticipantItem
                 connectionData={el.connection.data}
@@ -63,8 +66,9 @@ const mapState = (state) => ({
   title: state.roomPersistReducer.title,
   role: state.roomPersistReducer.role,
   name: state.roomPersistReducer.name,
-  speakerStream: state.roomReducer.speakerStream,
-  moderatorStream: state.roomReducer.moderatorStream,
+  publisherConnections: state.roomReducer.publisherConnections,
+  // speakerStream: state.roomReducer.speakerStream,
+  // moderatorStream: state.roomReducer.moderatorStream,
 });
 
 export default connect(mapState)(ListParticipant);

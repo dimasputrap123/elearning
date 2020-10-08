@@ -163,7 +163,11 @@ const Speaker = ({
     } else {
       const streams = [...speakerStream, ...moderatorStream];
       if (focusStream === "self" && publisherConnections.length === 0) {
-        setState((state) => ({ ...state, showBanner: true }));
+        setState((state) => ({
+          ...state,
+          showBanner: true,
+          showWaiting: false,
+        }));
       } else {
         if (focusStream === "self") {
           const indexStreams = streams.findIndex(
